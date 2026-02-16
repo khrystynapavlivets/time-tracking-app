@@ -13,7 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Trash2, Clock, Check, X } from "lucide-react"
-import { cn } from "@/lib/utils"
 import { useStore, type TimeEntry } from "@/lib/store"
 
 function formatDuration(seconds: number) {

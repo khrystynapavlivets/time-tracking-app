@@ -43,7 +43,7 @@ export function ReportsPage() {
   const { entries, getProject } = useStore()
   const [viewMode, setViewMode] = useState<ViewMode>("week")
 
-  const today = new Date()
+  const today = useMemo(() => new Date(), [])
 
   const chartData = useMemo(() => {
     if (viewMode === "day") {

@@ -37,14 +37,6 @@ export interface TimeEntry {
 /*  Seed data                                                          */
 /* ------------------------------------------------------------------ */
 
-const COLOR_MAP: Record<string, string> = {
-  "bg-primary": "#6366f1",
-  "bg-chart-2": "#2dd4bf",
-  "bg-chart-4": "#facc15",
-  "bg-destructive": "#ef4444",
-  "bg-chart-3": "#1e3a5f",
-}
-
 const seedProjects: Project[] = [
   { id: "p1", name: "Website Redesign", client: "Acme Corp", color: "bg-primary", hexColor: "#6366f1", totalHours: 24.5, status: "Active" },
   { id: "p2", name: "Mobile App", client: "StartupXYZ", color: "bg-chart-2", hexColor: "#2dd4bf", totalHours: 18.2, status: "Active" },

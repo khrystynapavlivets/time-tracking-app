@@ -37,7 +37,7 @@ function CustomTooltipContent({
 export function WeeklyChart() {
   const { entries } = useStore()
 
-  const today = new Date()
+  const today = useMemo(() => new Date(), [])
   const todayIndex = today.getDay()
   const adjustedToday = todayIndex === 0 ? 6 : todayIndex - 1
 

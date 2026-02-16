@@ -26,13 +26,6 @@ function AppShell() {
     timerInput?.scrollIntoView({ behavior: "smooth", block: "center" })
   }, [])
 
-  const pageTitle: Record<string, string> = {
-    dashboard: "Dashboard",
-    projects: "Projects",
-    reports: "Reports",
-    settings: "Settings",
-  }
-
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <AppSidebar
