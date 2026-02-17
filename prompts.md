@@ -44,9 +44,43 @@ Design Aesthetic:
 - Ensure high contrast and good spacing.
 
 ### Запит 2 ###
+**AI-tool**:
+https://www.trae.ai/
+
+**Prompt**:
 Run this project
 
+
 ### Запит 3 ###
+**AI-tool**:
+https://www.trae.ai/
+
+**Prompt**:
+Виконай рефакторинг наданого коду Next.js, дотримуючись принципів Clean Architecture та наведеної структури папок.
+
+Контекст: Наразі код монолітний (логіка, стан та UI змішані в одному-двох файлах). Потрібно відокремити бізнес-логіку від компонентів інтерфейсу.
+
+Суворі правила:
+
+НЕ змінюй дизайн UI: Залиш усі класи Tailwind, кольори та верстку без змін.
+
+Винесення логіки: Усі обчислення часу, форматування даних та запити до API мають бути винесені в src/lib/services/.
+
+Розподіл компонентів:
+
+UI: Базові візуальні компоненти (Button, Input, Card) йдуть у src/components/ui/.
+
+Features: Складні компоненти зі станом (Timer, TaskList, ProjectList) йдуть у src/components/features/[назва_фічі]/.
+
+Layout: Header, Sidebar та обгортки сторінок йдуть у src/components/layout/.
+
+Типи: Усі інтерфейси та типи TypeScript мають бути в src/types/index.ts.
+
+App Router: Файли в src/app/ повинні містити лише композицію сторінок (мінімум логіки).
+
+
+
+### Запит 4 ###
 **AI-tool**:
 https://www.trae.ai/
 
@@ -57,7 +91,10 @@ Your task: Create a detailed Roadmap for project implementation.
 
 Limitations: It is strictly forbidden to make any changes to the code or files at this stage. Text plan only.
 
-### Запит 4 ###
+### Запит 5 ###
+**AI-tool**:
+https://www.trae.ai/
+
 **Prompt**:
 Step-by-step run and fix:
 
@@ -65,60 +102,72 @@ Step-by-step run and fix:
 # npx tsc --noEmit
 # pnpm build
 
-### Запит 5 ###
-
-**Користувач:**
-> Step-by-step run and fix: 
-> pnpm lint 
-> npx tsc --noEmit 
-> pnpm build
-
-**Дії та відповідь AI:**
-1.  **ESLint (pnpm lint):**
-    *   Встановлено відсутні залежності (`eslint`, `eslint-config-next`).
-    *   Налаштовано `eslint.config.mjs` та скрипт `lint` у `package.json`.
-    *   Виправлено помилки лінтера в коді (невикористовувані змінні, залежності хуків, типи `any`).
-2.  **TypeScript (npx tsc --noEmit):**
-    *   Перевірка типів проходить успішно після виправлень лінтера.
-3.  **Build (pnpm build):**
-    *   Виправлено конфігурацію `next.config.mjs` (видалено `ignoreBuildErrors: true`).
-    *   Збірка проекту проходить успішно.
 
 
 ### Запит 6 ###
+**AI-tool**:
+https://www.trae.ai/
+
+**Prompt**:
 Проведи критичний аудит (Code Review) мого проекту на Next.js. Перевір, чи відповідає він принципам Clean Architecture та чи немає в ньому «зайвого» (dead code) або змішаної відповідальності. Напиши план
 
 
 ### Запит 7 ###
+**AI-tool**:
+https://www.trae.ai/
+
+**Prompt**:
 Проведи критичний аудит (Code Review) мого проекту на Next.js. Перевір, чи відповідає він принципам Clean Architecture та чи немає в ньому «зайвого» (dead code) або змішаної відповідальності.
 
 
 ### Запит 8 ###
+**AI-tool**:
+https://www.trae.ai/
 
+**Prompt**:
 Recent tasks мають співпадати з завдань з бази  даних. виконай це завдання Поле введення назви задачі з автодоповненням з попередніх задач.
 
 ### Запит 9 ###
+**AI-tool**:
+https://www.trae.ai/
 
+**Prompt**:
 Додай Коротку документацію в README про вибрані технології та як запустити проект локально.
 
 ### Запит 10 ###
+**AI-tool**:
+https://www.trae.ai/
 
+**Prompt**:
 Переконатися, що UI коректно відображається, коли списки пусті (Empty States).
 
 
 ### Запит 11 ###
+**AI-tool**:
+https://www.trae.ai/
+
+**Prompt**:
 Перевір папку src/components/ui та видали компоненти shadcn, які не використовуються в проекті (наприклад, carousel, context-menu
 
 
 ### Запит 12 ###
+**AI-tool**:
+https://www.trae.ai/
 
+**Prompt**:
 Виконай рефакторинг згідно з принципом Separation of Concerns.
 
 ### Запит 13 ###
+**AI-tool**:
+https://www.trae.ai/
 
+**Prompt**:
  Перенеси всі унікальні стилі та змінні з src/styles/globals.css у src/app/globals.css, якщо їх там немає. Після цього видали файл src/styles/globals.css та онови всі імпорти в проекті, щоб вони посилалися на актуальний файл стилів.
 
 
 ### Запит 14 ###
+**AI-tool**:
+https://www.trae.ai/
 
+**Prompt**:
  Проаналізуй структуру проекту і знайди порожні директорій, які залишилися після рефакторингу або ще не використовуються.
