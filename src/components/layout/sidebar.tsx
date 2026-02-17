@@ -3,8 +3,8 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Separator } from "@/components/ui/separator"
+import { Avatar, AvatarFallback } from "@/components/ui/data-display/avatar"
+import { Separator } from "@/components/ui/layout/separator"
 import {
   LayoutDashboard,
   FolderKanban,
@@ -14,12 +14,8 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-
-interface SidebarProps {
-  collapsed: boolean
-  onToggleCollapse: () => void
-}
+import { Button } from "@/components/ui/forms/button"
+import { useSidebar } from "@/components/ui/navigation/sidebar"
 
 const navItems = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, href: "/" },
@@ -28,10 +24,10 @@ const navItems = [
   { id: "settings", label: "Settings", icon: Settings, href: "/settings" },
 ]
 
-export function AppSidebar({
-  collapsed,
-  onToggleCollapse,
-}: SidebarProps) {
+export function AppSidebar() {
+  const { open, toggleSidebar } = useSidebar()
+  const collapsed = !open
+  const onToggleCollapse = toggleSidebar
   const pathname = usePathname()
 
   return (

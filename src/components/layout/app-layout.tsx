@@ -1,17 +1,13 @@
 "use client"
 
-import { useState } from "react"
 import { AppSidebar } from "@/components/layout/sidebar"
 import { ScrollArea } from "@/components/ui/layout/scroll-area"
 import { SidebarInset, SidebarProvider } from "@/components/ui/navigation/sidebar"
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
-
   return (
     <SidebarProvider
-      open={!sidebarCollapsed}
-      onOpenChange={(open) => setSidebarCollapsed(!open)}
+      defaultOpen={true}
       className="h-screen overflow-hidden bg-background"
     >
       <AppSidebar />
