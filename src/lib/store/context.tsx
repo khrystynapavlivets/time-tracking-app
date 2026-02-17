@@ -10,8 +10,7 @@ import {
   type ReactNode,
 } from "react"
 import { Project, TimeEntry } from "@/types"
-import { seedProjects, seedEntries } from "@/lib/services/data"
-import { supabase } from "@/lib/supabase"
+import { supabase } from "@/lib/api/supabase"
 import { SupabaseProjectRepository } from "@/lib/repositories/supabase-project-repository"
 import { SupabaseTimeEntryRepository } from "@/lib/repositories/supabase-time-entry-repository"
 
@@ -52,9 +51,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         setEntries(loadedEntries)
       } catch (error) {
         console.error("Failed to load data:", error)
-        // Fallback to seed data if DB is empty or fails (optional, good for demo)
-        setProjects(current => current.length === 0 ? seedProjects : current)
-        setEntries(current => current.length === 0 ? seedEntries : current)
       } finally {
         setIsLoading(false)
       }

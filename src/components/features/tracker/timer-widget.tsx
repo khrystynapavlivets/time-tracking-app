@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import { Card, CardContent } from "@/components/ui/data-display/card"
 import { Button } from "@/components/ui/forms/button"
 import {
@@ -18,11 +18,10 @@ import {
 import { Play, Pause, Square, Circle, Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useStore } from "@/lib/store"
-import { previousTasks } from "@/lib/services/data"
 import { formatTime } from "@/lib/utils/time"
 
 export function TimerWidget() {
-  const { projects, addEntry } = useStore()
+  const { projects, addEntry, entries } = useStore()
   const [isRunning, setIsRunning] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
   const [elapsed, setElapsed] = useState(0)
@@ -33,11 +32,21 @@ export function TimerWidget() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const filteredSuggestions = taskName.length > 0
-    ? previousTasks.filter((t) =>
-        t.toLowerCase().includes(taskName.toLowerCase())
-      )
-    : previousTasks
+  const uniqueRecentTasks = useMemo(() => {
+    const tasks = entries
+      .map((entry) => entry.task)
+      .filter((task): task is string => Boolean(task && task.trim()))
+    
+    return Array.from(new Set(tasks))
+  }, [entries])
+
+  const filteredSuggestions = useMemo(() => {
+    if (taskName.length === 0) return uniqueRecentTasks
+
+    return uniqueRecentTasks.filter((t) =>
+      t.toLowerCase().includes(taskName.toLowerCase())
+    )
+  }, [taskName, uniqueRecentTasks])
 
   useEffect(() => {
     if (isRunning && !isPaused) {

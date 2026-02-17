@@ -53,10 +53,3 @@ export const seedEntries: TimeEntry[] = [
   },
 ]
 
-export const previousTasks: string[] = [
-  "Initial Design",
-  "API Integration",
-  "Database Setup",
-  "User Authentication",
-  "Testing",
-]
