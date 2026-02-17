@@ -60,3 +60,26 @@
 - `src/components`: UI компоненти та бізнес-логіка
 - `src/lib`: Утиліти, API клієнти, хуки та сервіси
 - `supabase`: Міграції бази даних
+
+
+### Структура Проекту (Clean Architecture)
+```
+src/
+├── app/                 # Next.js App Router (Pages)
+│   ├── api/             # API Routes (якщо потрібно)
+│   ├── projects/        # Page: Projects
+│   ├── reports/         # Page: Reports
+│   └── page.tsx         # Page: Tracker (Home)
+├── components/
+│   ├── ui/              # Базові компоненти (Button, Input, Card)
+│   ├── layout/          # Header, Sidebar
+│   └── features/        # Компоненти з бізнес-логікою
+│       ├── tracker/     # Timer, TaskList
+│       ├── projects/    # ProjectList, ColorPicker
+│       └── reports/     # DateRangePicker, ExportButton
+├── lib/
+│   ├── db/              # Prisma/Supabase client
+│   ├── services/        # Бізнес-логіка (TimeService, ProjectService)
+│   └── utils/           # Форматування часу, CSV генератор
+└── types/               # TypeScript Definitions
+```
