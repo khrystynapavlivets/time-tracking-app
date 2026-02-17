@@ -7,7 +7,6 @@ export default function SettingsPage() {
   return (
     <>
       <Header
-        title="Settings"
         breadcrumb="Settings"
         showAddButton={false}
       />

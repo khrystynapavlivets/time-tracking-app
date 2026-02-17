@@ -6,6 +6,7 @@ import {
   useState,
   useCallback,
   useEffect,
+  useMemo,
   type ReactNode,
 } from "react"
 import { Project, TimeEntry } from "@/types"
@@ -35,8 +36,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
 
   // Initialize repositories
-  const projectRepo = new SupabaseProjectRepository(supabase)
-  const timeEntryRepo = new SupabaseTimeEntryRepository(supabase)
+  const projectRepo = useMemo(() => new SupabaseProjectRepository(supabase), [])
+  const timeEntryRepo = useMemo(() => new SupabaseTimeEntryRepository(supabase), [])
 
   // Load initial data
   useEffect(() => {
@@ -52,14 +53,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       } catch (error) {
         console.error("Failed to load data:", error)
         // Fallback to seed data if DB is empty or fails (optional, good for demo)
-        if (projects.length === 0) setProjects(seedProjects)
-        if (entries.length === 0) setEntries(seedEntries)
+        setProjects(current => current.length === 0 ? seedProjects : current)
+        setEntries(current => current.length === 0 ? seedEntries : current)
       } finally {
         setIsLoading(false)
       }
     }
     loadData()
-  }, [])
+  }, [projectRepo, timeEntryRepo])
 
   const addProject = useCallback(async (p: Omit<Project, "id" | "totalHours">) => {
     try {
@@ -69,7 +70,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error("Failed to add project:", error)
     }
-  }, [])
+  }, [projectRepo])
 
   const updateProject = useCallback(async (id: string, data: Partial<Project>) => {
     try {
@@ -78,7 +79,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error("Failed to update project:", error)
     }
-  }, [])
+  }, [projectRepo])
 
   const deleteProject = useCallback(async (id: string) => {
     try {
@@ -87,7 +88,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error("Failed to delete project:", error)
     }
-  }, [])
+  }, [projectRepo])
 
   const addEntry = useCallback(async (e: Omit<TimeEntry, "id">) => {
     try {
@@ -99,7 +100,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error("Failed to add entry:", error)
     }
-  }, [])
+  }, [timeEntryRepo])
 
   const updateEntry = useCallback(async (id: string, data: Partial<TimeEntry>) => {
     try {
@@ -108,7 +109,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error("Failed to update entry:", error)
     }
-  }, [])
+  }, [timeEntryRepo])
 
   const deleteEntry = useCallback(async (id: string) => {
     try {
@@ -117,7 +118,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error("Failed to delete entry:", error)
     }
-  }, [])
+  }, [timeEntryRepo])
 
   const getProject = useCallback(
     (id: string) => projects.find((p) => p.id === id),

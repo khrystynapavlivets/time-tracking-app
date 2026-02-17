@@ -20,7 +20,6 @@ export default function DashboardPage() {
   return (
     <>
       <Header
-        title="Dashboard"
         breadcrumb="Dashboard"
         onAddTask={handleAddTask}
       />

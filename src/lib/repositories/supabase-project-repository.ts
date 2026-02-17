@@ -72,7 +72,7 @@ export class SupabaseProjectRepository implements IProjectRepository {
   }
 
   async update(id: string, project: Partial<Project>): Promise<Project> {
-    const updates: any = {};
+    const updates: Record<string, unknown> = {};
     if (project.name !== undefined) updates.name = project.name;
     if (project.client !== undefined) updates.client = project.client;
     if (project.color !== undefined) updates.color = project.color;

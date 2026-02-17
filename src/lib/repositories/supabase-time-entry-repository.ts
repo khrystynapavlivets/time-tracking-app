@@ -76,7 +76,7 @@ export class SupabaseTimeEntryRepository implements ITimeEntryRepository {
   }
 
   async update(id: string, entry: Partial<TimeEntry>): Promise<TimeEntry> {
-    const updates: any = {};
+    const updates: Record<string, unknown> = {};
     if (entry.task !== undefined) updates.task = entry.task;
     if (entry.projectId !== undefined) updates.project_id = entry.projectId;
     if (entry.duration !== undefined) updates.duration = entry.duration;

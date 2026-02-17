@@ -12,17 +12,17 @@ import { Button } from "@/components/ui/forms/button"
 import { Plus } from "lucide-react"
 
 interface HeaderProps {
-  title: string
   breadcrumb: string
   onAddTask?: () => void
   showAddButton?: boolean
+  children?: React.ReactNode
 }
 
 export function Header({
-  title,
   breadcrumb,
   onAddTask,
   showAddButton = true,
+  children,
 }: HeaderProps) {
   return (
     <header className="flex h-16 shrink-0 items-center justify-between border-b px-6 transition-[width,height] ease-linear group-data-[collapsible=icon]:h-16 bg-background">
@@ -44,6 +44,7 @@ export function Header({
         </Breadcrumb>
       </div>
       <div className="flex items-center gap-2">
+        {children}
         {showAddButton && onAddTask && (
           <Button size="sm" onClick={onAddTask}>
             <Plus className="mr-2 h-4 w-4" />

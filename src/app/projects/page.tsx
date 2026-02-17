@@ -7,7 +7,6 @@ export default function ProjectsPage() {
   return (
     <>
       <Header
-        title="Projects"
         breadcrumb="Projects"
         showAddButton={false}
       />

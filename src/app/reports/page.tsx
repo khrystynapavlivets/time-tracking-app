@@ -21,7 +21,6 @@ export default function ReportsPage() {
   return (
     <>
       <Header
-        title="Reports"
         breadcrumb="Reports"
         showAddButton={false}
       >
