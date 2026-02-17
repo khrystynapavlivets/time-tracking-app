@@ -48,6 +48,59 @@ export function TimerWidget() {
     )
   }, [taskName, uniqueRecentTasks])
 
+  // Load timer state from localStorage on mount
+  useEffect(() => {
+    const savedState = localStorage.getItem("timer_state")
+    if (savedState) {
+      try {
+        const parsed = JSON.parse(savedState)
+        if (parsed.taskName) setTaskName(parsed.taskName)
+        if (parsed.selectedProject) setSelectedProject(parsed.selectedProject)
+        setIsRunning(parsed.isRunning)
+        setIsPaused(parsed.isPaused)
+        
+        if (parsed.startTime) {
+          startTimeRef.current = new Date(parsed.startTime)
+        }
+
+        if (parsed.isRunning && !parsed.isPaused && parsed.lastTick) {
+          const now = Date.now()
+          const diffSeconds = Math.floor((now - parsed.lastTick) / 1000)
+          setElapsed((parsed.elapsed || 0) + diffSeconds)
+        } else {
+          setElapsed(parsed.elapsed || 0)
+        }
+      } catch (e) {
+        console.error("Failed to restore timer state:", e)
+      }
+    }
+  }, [])
+
+  // Save timer state to localStorage
+  useEffect(() => {
+    if (elapsed > 0 || taskName || isRunning) {
+      const state = {
+        taskName,
+        selectedProject,
+        isRunning,
+        isPaused,
+        elapsed,
+        startTime: startTimeRef.current?.toISOString(),
+        lastTick: Date.now(),
+      }
+      localStorage.setItem("timer_state", JSON.stringify(state))
+    }
+  }, [taskName, selectedProject, isRunning, isPaused, elapsed])
+
+  // Set default project if none selected and projects available
+  useEffect(() => {
+    if (!selectedProject && projects.length > 0) {
+      // Only set if we didn't just restore a state (checked via taskName/isRunning or just trust the check)
+      // Actually, if selectedProject is empty, we probably want a default.
+      setSelectedProject(projects[0].id)
+    }
+  }, [projects, selectedProject])
+
   useEffect(() => {
     if (isRunning && !isPaused) {
       intervalRef.current = setInterval(() => {
@@ -95,6 +148,7 @@ export function TimerWidget() {
     setElapsed(0)
     setTaskName("")
     startTimeRef.current = null
+    localStorage.removeItem("timer_state")
   }
 
   return (

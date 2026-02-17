@@ -91,30 +91,63 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const newEntry = await timeEntryRepo.create(e)
       setEntries((prev) => [newEntry, ...prev])
       
-      // Update project total hours (optimistic update or re-fetch)
-      // For now, let's keep it simple
+      // Update project total hours
+      if (newEntry.projectId) {
+        const updatedProject = await projectRepo.getById(newEntry.projectId)
+        if (updatedProject) {
+          setProjects((prev) => prev.map((p) => (p.id === updatedProject.id ? updatedProject : p)))
+        }
+      }
     } catch (error) {
       console.error("Failed to add entry:", error)
     }
-  }, [timeEntryRepo])
+  }, [timeEntryRepo, projectRepo])
 
   const updateEntry = useCallback(async (id: string, data: Partial<TimeEntry>) => {
     try {
+      const oldEntry = entries.find(e => e.id === id)
       const updated = await timeEntryRepo.update(id, data)
       setEntries((prev) => prev.map((e) => (e.id === id ? updated : e)))
+
+      // Update project total hours if duration or project changed
+      if (oldEntry && (data.duration !== undefined || data.projectId !== undefined)) {
+        // Update old project if project changed
+        if (oldEntry.projectId && oldEntry.projectId !== updated.projectId) {
+           const oldProject = await projectRepo.getById(oldEntry.projectId)
+           if (oldProject) {
+             setProjects((prev) => prev.map((p) => (p.id === oldProject.id ? oldProject : p)))
+           }
+        }
+        // Update current/new project
+        if (updated.projectId) {
+          const currentProject = await projectRepo.getById(updated.projectId)
+          if (currentProject) {
+            setProjects((prev) => prev.map((p) => (p.id === currentProject.id ? currentProject : p)))
+          }
+        }
+      }
     } catch (error) {
       console.error("Failed to update entry:", error)
     }
-  }, [timeEntryRepo])
+  }, [timeEntryRepo, projectRepo, entries])
 
   const deleteEntry = useCallback(async (id: string) => {
     try {
+      const entry = entries.find(e => e.id === id)
       await timeEntryRepo.delete(id)
       setEntries((prev) => prev.filter((e) => e.id !== id))
+      
+      // Update project total hours
+      if (entry?.projectId) {
+        const updatedProject = await projectRepo.getById(entry.projectId)
+        if (updatedProject) {
+          setProjects((prev) => prev.map((p) => (p.id === updatedProject.id ? updatedProject : p)))
+        }
+      }
     } catch (error) {
       console.error("Failed to delete entry:", error)
     }
-  }, [timeEntryRepo])
+  }, [timeEntryRepo, projectRepo, entries])
 
   const getProject = useCallback(
     (id: string) => projects.find((p) => p.id === id),
